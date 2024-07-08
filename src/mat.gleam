@@ -14,17 +14,23 @@ fn default_converter(value: a) -> String {
   }
 }
 
+/// Formats the `template` string, replacing the first occurrence of `"{}"`
+/// with a display-value of `a`
 pub fn format1(template: String, a) -> String {
   let #(f, rest) = inner_format_once(template, a, default_converter)
   f <> rest
 }
 
+/// Formats the `template` string, replacing the first occurrence of `"{}"`
+/// with a display-value of `a`, second `"{}"` with `b`
 pub fn format2(template: String, a, b) -> String {
   let #(f1, rest) = inner_format_once(template, a, default_converter)
   let #(f2, rest) = inner_format_once(rest, b, default_converter)
   f1 <> f2 <> rest
 }
 
+/// Formats the `template` string, replacing the first occurrence of `"{}"`
+/// with a display-value of `a`, second `"{}"` with `b`, etc.
 pub fn format3(template: String, a, b, c) -> String {
   let #(f1, rest) = inner_format_once(template, a, default_converter)
   let #(f2, rest) = inner_format_once(rest, b, default_converter)
@@ -32,6 +38,8 @@ pub fn format3(template: String, a, b, c) -> String {
   f1 <> f2 <> f3 <> rest
 }
 
+/// Formats the `template` string, replacing the first occurrence of `"{}"`
+/// with a display-value of `a`, second `"{}"` with `b`, etc.
 pub fn format4(template: String, a, b, c, d) -> String {
   let #(f1, rest) = inner_format_once(template, a, default_converter)
   let #(f2, rest) = inner_format_once(rest, b, default_converter)
@@ -40,6 +48,8 @@ pub fn format4(template: String, a, b, c, d) -> String {
   f1 <> f2 <> f3 <> f4 <> rest
 }
 
+/// Formats the `template` string, replacing the first occurrence of `"{}"`
+/// with a display-value of `a`, second `"{}"` with `b`, etc.
 pub fn format5(template: String, a, b, c, d, e) -> String {
   let #(f1, rest) = inner_format_once(template, a, default_converter)
   let #(f2, rest) = inner_format_once(rest, b, default_converter)
@@ -60,6 +70,12 @@ fn inner_format_once(
   }
 }
 
+/// Formats the `template` string, replacing each `"{}"`
+/// with the display-values of consecutive elements of `values`.
+///
+/// ---
+/// Excessive elements of `values` are ignored.
+/// Placeholders (`"{}"`) which don't have a corresponding element are left as-is.
 pub fn format_list(template: String, values: List(a)) -> String {
   inner_format(template, values, default_converter)
 }
