@@ -1,4 +1,5 @@
 import gleam/dict.{type Dict}
+import gleam/dynamic
 import gleeunit
 import gleeunit/should
 
@@ -221,4 +222,9 @@ pub fn format_5_correct_test() {
 pub fn format_5_not_enough_test() {
   mat.format5("a {} b {} c {} d {}", 1, 2, 3, 4, 5)
   |> should.equal("a 1 b 2 c 3 d 4")
+}
+
+pub fn format_list_dynamics_test() {
+  mat.format_list("{} {}", [dynamic.from("foo"), dynamic.from(42)])
+  |> should.equal("foo 42")
 }
